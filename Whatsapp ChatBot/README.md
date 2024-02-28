@@ -18,9 +18,9 @@ This project is focused on developing a WhatsApp bot with the main functionaliti
 - **Google Calendar Management**: Users can add, update, and delete events on their Google Calendar directly through the bot.
 - **Task List**: The bot can create and manage a task list, allowing users to keep track of their tasks and deadlines.
 
-## Setup Instructions
+<!-- ## Setup Instructions
 
-1. Clone the repository: `git clone https://github.com/your_username/whatsapp-bot.git`
+<!-- 1. Clone the repository: `git clone https://github.com/your_username/whatsapp-bot.git`
 
 2. Install dependencies: `pip install -r requirements.txt`
 
@@ -37,7 +37,7 @@ This project is focused on developing a WhatsApp bot with the main functionaliti
 
 8. Configure the webhook URL in the WhatsApp API platform to point to the Ngrok tunnel URL.
 
-9. The bot is now ready to use!
+9. The bot is now ready to use! --> -->
 
 ## Contribution
 
