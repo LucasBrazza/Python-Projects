@@ -47,5 +47,33 @@ def getAccessToken():
 
 
 
+def getTrackById(accessToken, trackId):
+    """
+    Fetches track data from the Spotify API.
+
+    Parameters:
+    accessToken (str): The access token for the Spotify API.
+    trackId (str): The ID of the track to fetch.
+
+    Returns:
+    dict or None: A dictionary containing the track data if the request was successful, or None if the request failed.
+    """
+    header = {
+        'Authorization': f'Bearer ' + accessToken
+    }
+
+    response = requests.get(f'https://api.spotify.com/v1/tracks/{trackId}', headers = header)
+
+    if response.status_code != 200:
+        error_message = response.json().get("error").get("message") if response.json().get("error") else response.json()
+        print(f'Error: Unable to fetch track data.\nStatus code: {response.status_code} - {error_message}')
+        return None
+
+    return response.json()
+
+
+
 os.environ['ACCESS_TOKEN'] = getAccessToken()
 print(os.environ['ACCESS_TOKEN'])
+track = getTrackById(os.environ['ACCESS_TOKEN'], "2TpxZ7JUBn3uw46aR7qd6V")
+print(track.get("name") + ' by ' + track.get("artists")[0].get("name"))
