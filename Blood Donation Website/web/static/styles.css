@@ -1,0 +1,33 @@
+.nav .nav-link {
+    color: white !important;
+    align-items: center;
+    font-size: 100%;
+}
+
+.navitem-active {
+    color: rgb(0, 0, 0) !important;
+}
+
+.dropdown-menu .dropdown-item {
+    color: white !important;
+    text-align: left;
+}
+
+.card .card-body {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+}
+
+.card-title-large {
+    font-size: 2rem;
+}
+
+.bg-image {
+    background-image: url('../static/bg-image.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;    
+}

@@ -1,0 +1,42 @@
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<nav class="nav bg-danger justify-content-center py-4">
+  <div class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+  </div>
+
+  <div class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Locations
+    </a>
+    <ul class="dropdown-menu bg-danger">
+      <li>
+        <a class="dropdown-item" href="{% url 'bloodcenters-list' %}">Blood Centers</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'cities-list' %}">Cities</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'states-list' %}">States</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="nav-item dropdown bg-danger">
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Donations
+    </a>
+    <ul class="dropdown-menu bg-danger">
+      <li>
+        <a class="dropdown-item" href="{% url 'bloodtypes-list' %}">Blood Types</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'persons-list' %}">Donors</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'blooddonations-list' %}">Donations</a>
+      </li>
+    </ul>
+  </div>
+</nav>

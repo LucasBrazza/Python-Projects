@@ -1,0 +1,24 @@
+{% extends "../base.html" %}
+{% load rest_framework %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Create BloodType{% endblock %}
+
+
+{% block content %}
+<div
+class="card text-black opacity-75"
+>
+    <div class="card-body">
+        <h4 class="card-title">BloodTypes</h4>
+        <form action="{% url 'bloodtype-create' %}" method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
+            <input type="submit" value="Save" class="btn btn-primary">
+            <a href="{% url 'bloodtypes-list'%}" class="btn btn-danger">Back</a>
+        </form>
+        </div>
+</div>
+
+{% endblock %}

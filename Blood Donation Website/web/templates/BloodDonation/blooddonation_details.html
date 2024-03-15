@@ -1,0 +1,22 @@
+{% extends '../base.html' %}
+{% load rest_framework %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  Create BloodDonation
+{% endblock %}
+
+{% block content %}
+<div class="card text-black opacity-75">
+  <div class="card-body">
+    <h4 class="card-title">UPDATE</h4>
+    <form action="{% url 'blooddonation-detail' blooddonation.id %}" method="POST">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <input type="submit" value="Save" class="btn btn-primary" />
+      <a href="{% url 'blooddonations-list' %}" class="btn btn-danger">Back</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "../base.html" %}
+{% load rest_framework %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Create Person{% endblock %}
+
+
+{% block content %}
+<div
+class="card text-black opacity-75"
+>
+    <div class="card-body">
+        <h4 class="card-title">Persons</h4>
+        <form action="{% url 'person-create' %}" method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
+            <input type="submit" value="Save" class="btn btn-primary">
+            <a href="{% url 'persons-list'%}" class="btn btn-danger">Back</a>
+        </form>
+        </div>
+</div>
+
+{% endblock %}
