@@ -1,0 +1,11 @@
+# Arquivos Python padrão a serem ignorados
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Diretório do ambiente virtual
+.venv/
+
+# diretorio vscode
+.vscode/
