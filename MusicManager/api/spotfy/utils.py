@@ -59,7 +59,7 @@ def getTrackById(accessToken, trackId):
     dict or None: A dictionary containing the track data if the request was successful, or None if the request failed.
     """
     header = {
-        'Authorization': f'Bearer ' + accessToken
+        'Authorization': f'Bearer {accessToken}'
     }
 
     response = requests.get(f'https://api.spotify.com/v1/tracks/{trackId}', headers = header)
@@ -71,9 +71,32 @@ def getTrackById(accessToken, trackId):
 
     return response.json()
 
+ 
+def getArtistById(accessToken, artistId):
+    """
+    Fetches artist data from the Spotify API.
+
+    Parameters:
+    accessToken (str): The access token for the Spotify API.
+    artistId (str): The ID of the artist to fetch.
+    
+    Returns:
+    dict or None: A dictionary containing the artist data if the request was successful, or None if the request failed.
+    """
+    
+    header = {
+        'Authorization': f'Bearer {accessToken}'
+    }
+    
+    response = requests.get(f'https://api.spotify.com/v1/artists/{artistId}', headers = header)
+    
+    if response.status_code != 200:
+        error_message = response.json().get("error").get("message") if response.json().get("error") else response.json()
+        print(f'Error: Unable to fetch artist data.\nStatus code: {response.status_code} - {error_message}')
+        return None
+      
+    return response.json()
+ 
 
 
-os.environ['ACCESS_TOKEN'] = getAccessToken()
-print(os.environ['ACCESS_TOKEN'])
-track = getTrackById(os.environ['ACCESS_TOKEN'], "2TpxZ7JUBn3uw46aR7qd6V")
-print(track.get("name") + ' by ' + track.get("artists")[0].get("name"))
+
