@@ -19,7 +19,7 @@ def index():
 
 @app.route('/login')
 def login():
-    return security.getUserAuthorization()
+    return spotfy.getUserAuthorization()
 
 
 @app.route('/callback')
@@ -28,21 +28,7 @@ def callback():
         return jsonify({"Error: ": request.args['error']})
 
     if 'code' in request.args:
-        body = {
-            'grant_type': 'authorization_code',
-            'code': request.args['code'],
-            'redirect_uri': os.environ.get('SPOTFY_REDIRECT_URI'),
-            'client_id': os.environ.get('SPOTFY_CLIENT_ID'),
-            'code_verifier': os.environ.get('CODE_VERIFIER')
-        }
-
-        response = requests.post(os.environ.get('TOKEN_URL'), data=body)
-
-        tokeInfo = response.json()
-        
-        session['access_token'] = tokeInfo['access_token']
-        session['refresh_token'] = tokeInfo['refresh_token']
-        session['expires_at'] = datetime.now().timestamp() + tokeInfo['expires_in']
+        spotfy.getAccessToken('authorization_code')
         
         return redirect('/profile')
     
@@ -64,18 +50,7 @@ def refreshToken():
         return redirect('/login')
     
     if datetime.now().timestamp() > session['expires_at']:
-        body = {
-            'grant_type' : 'refresh_token',
-            'refresh_token' : session['refresh_token'],
-            'client_id' : os.environ.get('SPOTFY_CLIENT_ID'),
-            'client_secret' : os.environ.get('SPOTFY_CLIENT_SECRET')
-        }
-        
-        response = requests.post(os.environ.get('TOKEN_URL'), data=body)
-        newTokenInfo = response.json()
-        
-        session['access_token'] = newTokenInfo['access_token']
-        session['expires_at'] = datetime.now().timestamp() + newTokenInfo['expires_in']
+        spotfy.refreshToken()
         
         #TODO - return to the correct pages
         return redirect('/profile')

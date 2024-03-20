@@ -44,21 +44,3 @@ def decoder(codeVerifier: str) -> str:
     """
     return base64.urlsafe_b64encode(codeVerifier.encode('utf-8')).decode('utf-8')
     
-
-def getUserAuthorization():
-    [codeVerified, codeChallenge] = AuthCodePKCEFlow()
-    os.environ['CODE_VERIFIER'] = codeVerified
-    os.environ['CODE_CHALLENGE'] = codeChallenge
-
-    data = {
-        'client_id': os.environ.get('SPOTFY_CLIENT_ID'),
-        'response_type': 'code',
-        'redirect_uri': os.environ.get('SPOTFY_REDIRECT_URI'),
-        'code_challenge_method': 'S256',
-        'code_challenge': codeChallenge,
-        'scope': 'user-read-private user-read-email'
-    }
-
-    authUrl = f"{os.environ.get('AUTH_URL')}?{urllib.parse.urlencode(data)}"
-
-    return redirect(authUrl)
