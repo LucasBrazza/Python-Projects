@@ -13,14 +13,11 @@
 import requests
 import os
 from dotenv import load_dotenv
-from flask import Flask,jsonify 
-from api.config import Config
+from flask import Flask, jsonify 
 
 
 # Load environment variables from config.py
-app = Flask(__name__)
-app.config.from_object(Config)
-
+load_dotenv()
 
 def getAccessToken():
     """
@@ -35,8 +32,8 @@ def getAccessToken():
 
     data = {
         'grant_type': 'client_credentials',
-        'client_id': app.config['SPOTFY_CLIENT_ID'],
-        'client_secret': app.config['SPOTFY_CLIENT_SECRET']
+        'client_id': os.environ.get('SPOTFY_CLIENT_ID'),
+        'client_secret': os.environ.get('SPOTFY_CLIENT_SECRET')
     }
 
     response = requests.post('https://accounts.spotify.com/api/token', headers = header, data = data)
@@ -45,7 +42,7 @@ def getAccessToken():
         print(f'Error: Unable to fetch access token. Status code: {response.status_code}')
         return None
 
-    app.config['ACCESS_TOKEN'] = response.json()['access_token']
+    os.environ['ACCESS_TOKEN'] = response.json()['access_token']
     return response.json()['access_token']
 
     
