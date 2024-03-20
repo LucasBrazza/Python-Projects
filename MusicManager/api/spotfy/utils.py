@@ -100,5 +100,18 @@ def getArtistById(accessToken, artistId):
     return response.json()
  
 
-
+def getProfile(accessToken) :
+  
+    header = {
+        'Authorization': f'Bearer {accessToken}'
+    }
+    
+    response = requests.get('https://api.spotify.com/v1/me', headers = header)
+    
+    if response.status_code != 200:
+        error_message = response.json().get("error").get("message") if response.json().get("error") else response.json()
+        print(f'Error: Unable to fetch user data.\nStatus code: {response.status_code} - {error_message}')
+        return None
+        
+    return jsonify(response.json())
 
