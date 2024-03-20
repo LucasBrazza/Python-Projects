@@ -9,3 +9,6 @@ __pycache__/
 
 # diretorio vscode
 .vscode/
+
+# Arquivos de configuração do sistema config.py
+api/config.py
