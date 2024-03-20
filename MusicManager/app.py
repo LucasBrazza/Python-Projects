@@ -1,17 +1,16 @@
 import os
 import api.spotfy.security as security
 import api.spotfy.utils as spotfy
-from api.config import Config
+import api.config as config
 from flask import Flask, request, redirect, session, jsonify
 import requests
 from datetime import datetime
 from dotenv import load_dotenv
 
 
-
+load_dotenv()
 app = Flask(__name__)
-app.config.from_object(Config)
-
+app.secret_key = os.environ.get('SECRET_KEY')
 
 @app.route('/')
 def index():
@@ -25,26 +24,20 @@ def login():
 
 @app.route('/callback')
 def callback():
-    
     if 'error' in request.args:
         return jsonify({"Error: ": request.args['error']})
-    
+
     if 'code' in request.args:
-        request_body = {
-            'code' : security.AuthCodePKCEFlow(request.args['code']),
-            'grant_type' : 'authorization_code',
-            'redirect_uri' : app.config['REDIRECT_URI'],
-            'client_id' : app.config['SPOTFY_CLIENT_ID'],
-            'client_secret' : app.config['SPOTFY_CLIENT_SECRET']
+        body = {
+            'grant_type': 'authorization_code',
+            'code': request.args['code'],
+            'redirect_uri': os.environ.get('SPOTFY_REDIRECT_URI'),
+            'client_id': os.environ.get('SPOTFY_CLIENT_ID'),
+            'code_verifier': os.environ.get('CODE_VERIFIER')
         }
-        
-        response = requests.post(app.config['TOKEN_URL'], data=request_body)
-        
-        print('\n\n---------------------------------')
-        print(app.config['SPOTFY_CLIENT_ID'])
-        print(app.config['SPOTFY_CLIENT_SECRET'])
-        print(response.json())
-        print('\n\n---------------------------------')
+
+        response = requests.post(os.environ.get('TOKEN_URL'), data=body)
+
         tokeInfo = response.json()
         
         session['access_token'] = tokeInfo['access_token']
@@ -74,11 +67,11 @@ def refreshToken():
         body = {
             'grant_type' : 'refresh_token',
             'refresh_token' : session['refresh_token'],
-            'client_id' : app.config['SPOTFY_CLIENT_ID'],
-            'client_secret' : app.config['SPOTFY_CLIENT_SECRET']
+            'client_id' : os.environ.get('SPOTFY_CLIENT_ID'),
+            'client_secret' : os.environ.get('SPOTFY_CLIENT_SECRET')
         }
         
-        response = requests.post(app.config['TOKEN_URL'], data=body)
+        response = requests.post(os.environ.get('TOKEN_URL'), data=body)
         newTokenInfo = response.json()
         
         session['access_token'] = newTokenInfo['access_token']
